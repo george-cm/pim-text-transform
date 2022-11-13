@@ -1,0 +1,37 @@
+# This file contains transformations for applying to PIM long description fields.
+
+[[transformations]]
+
+name = "invalid html entities"
+search_pattern = '((&\w{2,}?):)'
+replacement_pattern = '\2;'
+post_process = "html.unescape"
+post_process_exceptions = ['&bull;', '&thinsp;']
+replacements = {}
+
+[[transformations]]
+
+name = "invalid html numbered entities"
+search_pattern = '((&#\d{2,4}?):)'
+replacement_pattern = '\2;'
+post_process = "html.unescape"
+post_process_exceptions = ['&bull;', '&thinsp;']
+replacements = { '&#8201:' = '&thinsp;', '&#8226:' = '&bull;' }
+
+[[transformations]]
+
+name = "fix En:yyyy standard"
+search_pattern = '((EN)\s*?(?:&nbsp;)*?\s*?(\d+)\s*?:\s*?(\d{4}))'
+replacement_pattern = '\2&nbsp;\3:\4'
+post_process = ""
+post_process_exceptions = []
+replacements = {}
+
+[[transformations]]
+
+name = "fix En:yyyy/An:yyyy standard"
+search_pattern = '((EN)\s*(?:&nbsp;)*?\s*(\d+?)\s*?:\s*?(\d{4})\s*?([/+])\s*?(A\d{1,})\s*?:\s*(\d{4}))'
+replacement_pattern = '\2&nbsp;\3:\4/\6:\7'
+post_process = ""
+post_process_exceptions = []
+replacements = {}
